@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Favorite Books</string>
+    <string name="fab_content_desc">Add Book</string>
+</resources>
