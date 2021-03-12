@@ -3,12 +3,16 @@ package com.devslopes.favoritebooks
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Adapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devslopes.favoritebooks.databinding.ActivityMainBinding
 import com.devslopes.favoritebooks.models.Book
 import kotlinx.android.synthetic.main.add_book.view.*
 
 class MainActivity : AppCompatActivity() {
+
+    //private lateinit var adapter: BooksAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,16 +22,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.bookList.apply {
             adapter = BooksAdapter(BookRepository.getBooks(this@MainActivity))
-            //item
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
         binding.addFab.setOnClickListener {
-            showAddScreen()
+            showAddScreen(binding)
         }
     }
 
-    private fun showAddScreen() {
+    private fun showAddScreen(binding: ActivityMainBinding) {
         val intent = Intent(this, AddBookActivity::class.java)
         startActivity(intent)
     }

@@ -14,10 +14,12 @@ object BookRepository {
         if (books.isEmpty()) {
             val sharedPreferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
             val booksString = sharedPreferences.getString(BOOKS_KEY, "").orEmpty()
-            val tempBooks = booksString.split(SEPARATOR)
-                .map { Book.fromCsv(it) }
+            if (!booksString.isNullOrEmpty()) {
+                val tempBooks = booksString.split(SEPARATOR)
+                    .map { Book.fromCsv(it) }
 
-            books.addAll(tempBooks)
+                books.addAll(tempBooks)
+            }
         }
 
         return books.toList()
@@ -46,5 +48,7 @@ object BookRepository {
             .putString(BOOKS_KEY, booksString)
             .apply()
     }
+
+
 
 }

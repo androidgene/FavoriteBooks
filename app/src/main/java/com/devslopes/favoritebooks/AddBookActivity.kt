@@ -1,10 +1,12 @@
 package com.devslopes.favoritebooks
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.devslopes.favoritebooks.databinding.AddBookBinding
 import com.devslopes.favoritebooks.models.Book
+import kotlinx.android.synthetic.main.activity_main.*
 
 class AddBookActivity: AppCompatActivity() {
 
@@ -14,12 +16,16 @@ class AddBookActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.saveButton.setOnClickListener {
-            BookRepository.addBook(enterItem(binding), this)
+            val newBook = enterItem(binding)
+            BookRepository.addBook(newBook, this)
         }
+        //val intent = Intent(this,MainActivity::class.java)
+        //startActivity(intent)
     }
 
-    fun enterItem(binding: AddBookBinding): Book {
-        val newItem: String = "${binding.title.text.toString()}|${binding.author.text.toString()}|${binding.genre.text.toString()}| ${binding.length.text.toString()}"
+    private fun enterItem(binding: AddBookBinding): Book {
+        val newItem = "${binding.title.text},${binding.author.text},${binding.genre.text},${binding.length.text}"
         return Book.fromCsv(newItem)
+
     }
 }

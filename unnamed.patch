@@ -1,0 +1,376 @@
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(date 1614974583887)
++++ .idea/vcs.xml	(date 1614974583887)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/devslopes/favoritebooks/AddBookActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/devslopes/favoritebooks/AddBookActivity.kt	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/java/com/devslopes/favoritebooks/AddBookActivity.kt	(date 1615419921748)
+@@ -4,6 +4,7 @@
+ import android.os.Bundle
+ import androidx.appcompat.app.AppCompatActivity
+ import com.devslopes.favoritebooks.databinding.AddBookBinding
++import com.devslopes.favoritebooks.models.Book
+ 
+ class AddBookActivity: AppCompatActivity() {
+ 
+@@ -13,7 +14,12 @@
+         setContentView(binding.root)
+ 
+         binding.saveButton.setOnClickListener {
++            BookRepository.addBook(enterItem(binding), this)
++        }
++    }
+ 
+-        }
++    fun enterItem(binding: AddBookBinding): Book {
++        val newItem: String = "${binding.title.text.toString()}|${binding.author.text.toString()}|${binding.genre.text.toString()}| ${binding.length.text.toString()}"
++        return Book.fromCsv(newItem)
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/add_book.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/add_book.xml	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/res/layout/add_book.xml	(date 1615333948905)
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+@@ -8,53 +7,116 @@
+     android:padding="8dp">
+ 
+     <TextView
+-        android:id="@+id/title"
++        android:id="@+id/title_label"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:textSize="24sp"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="Book Title"
+         android:textColor="@color/black"
+-        tools:text="Title"
++        android:textSize="18sp"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />
+ 
+-    <TextView
++    <EditText
++        android:id="@+id/title"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="24dp"
++        android:hint="Book Title"
++        android:textColor="@color/black"
++        android:textSize="18sp"
++        app:layout_constraintBottom_toTopOf="@+id/author_label"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toEndOf="@+id/title_label"
++        app:layout_constraintTop_toTopOf="@+id/title_label"
++        tools:text="Title" />
++
++    <EditText
+         android:id="@+id/author"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:textSize="14sp"
++        android:hint="Last, First"
++        android:textColor="@color/black"
++        android:textSize="18sp"
++        app:layout_constraintBottom_toTopOf="@+id/genre_label"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.0"
++        app:layout_constraintStart_toStartOf="@+id/title"
++        app:layout_constraintTop_toBottomOf="@+id/title_label"
++        tools:text="Author" />
++
++    <EditText
++        android:id="@+id/genre"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:hint="Mystery, Sdi-fi, etc."
++        android:textColor="@color/black"
++        android:textSize="18sp"
++        app:layout_constraintBottom_toBottomOf="@+id/genre_label"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.0"
++        app:layout_constraintStart_toStartOf="@+id/title"
++        app:layout_constraintTop_toTopOf="@+id/genre_label"
++        tools:text="Genre" />
++
++    <EditText
++        android:id="@+id/length"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:hint="number of words"
++        android:textColor="@color/black"
++        android:textSize="18sp"
++        app:layout_constraintBottom_toBottomOf="@+id/length_label"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.0"
++        app:layout_constraintStart_toStartOf="@+id/title"
++        app:layout_constraintTop_toBottomOf="@+id/genre_label"
++        tools:text="Length" />
++
++    <TextView
++        android:id="@+id/author_label"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="Author Name"
+         android:textColor="@color/black"
+-        tools:text="Author"
++        android:textSize="18sp"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/title" />
++        app:layout_constraintTop_toBottomOf="@id/title_label" />
+ 
+     <TextView
+-        android:id="@+id/genre"
++        android:id="@+id/genre_label"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:textSize="14sp"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="Genre"
+         android:textColor="@color/black"
+-        tools:text="Genre"
++        android:textSize="18sp"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/author" />
++        app:layout_constraintTop_toBottomOf="@id/author_label" />
+ 
+     <TextView
+-        android:id="@+id/length"
++        android:id="@+id/length_label"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:textSize="14sp"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="Length"
+         android:textColor="@color/black"
+-        tools:text="Length"
++        android:textSize="18sp"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/genre" />
++        app:layout_constraintTop_toBottomOf="@id/genre_label" />
+ 
+     <Button
+         android:id="@+id/save_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Save"
+-        tools:layout_editor_absoluteX="8dp"
+-        tools:layout_editor_absoluteY="8dp"
++        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/length"  />
++        app:layout_constraintTop_toBottomOf="@+id/length" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/res/layout/activity_main.xml	(date 1615336918544)
+@@ -24,13 +24,12 @@
+             android:id="@+id/add_fab"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
++            android:layout_gravity="bottom|right"
+             android:layout_marginEnd="32dp"
+             android:layout_marginBottom="32dp"
+             android:clickable="true"
+             android:contentDescription="@string/fab_content_desc"
+             app:fabSize="normal"
+-            app:layout_constraintBottom_toBottomOf="parent"
+-            app:layout_constraintEnd_toEndOf="parent"
+             app:srcCompat="@android:drawable/ic_input_add" />
+     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+ 
+Index: app/src/main/java/com/devslopes/favoritebooks/BookRepository.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/devslopes/favoritebooks/BookRepository.kt	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/java/com/devslopes/favoritebooks/BookRepository.kt	(date 1615254834135)
+@@ -14,10 +14,12 @@
+         if (books.isEmpty()) {
+             val sharedPreferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
+             val booksString = sharedPreferences.getString(BOOKS_KEY, "").orEmpty()
+-            val tempBooks = booksString.split(SEPARATOR)
+-                .map { Book.fromCsv(it) }
++            if (!booksString.isNullOrEmpty()) {
++                val tempBooks = booksString.split(SEPARATOR)
++                    .map { Book.fromCsv(it) }
+ 
+-            books.addAll(tempBooks)
++                books.addAll(tempBooks)
++            }
+         }
+ 
+         return books.toList()
+Index: app/src/main/java/com/devslopes/favoritebooks/models/Book.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/devslopes/favoritebooks/models/Book.kt	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/java/com/devslopes/favoritebooks/models/Book.kt	(date 1615341573711)
+@@ -9,7 +9,7 @@
+ 
+     companion object {
+         fun fromCsv(csv: String): Book {
+-            val items = csv.split(",")
++            val items = csv.split("|")
+             return Book(
+                 title = items[0],
+                 author = items[1],
+Index: .idea/markdown-navigator.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/markdown-navigator.xml	(date 1615221362786)
++++ .idea/markdown-navigator.xml	(date 1615221362786)
+@@ -0,0 +1,62 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="MarkdownProjectSettings">
++    <PreviewSettings splitEditorLayout="SPLIT" splitEditorPreview="PREVIEW" useGrayscaleRendering="false" zoomFactor="1.0" maxImageWidth="0" synchronizePreviewPosition="true" highlightPreviewType="LINE" highlightFadeOut="5" highlightOnTyping="true" synchronizeSourcePosition="true" verticallyAlignSourceAndPreviewSyncPosition="true" showSearchHighlightsInPreview="true" showSelectionInPreview="true" lastLayoutSetsDefault="false">
++      <PanelProvider>
++        <provider providerId="com.vladsch.md.nav.editor.swing.html.panel" providerName="Default - Swing" />
++      </PanelProvider>
++    </PreviewSettings>
++    <ParserSettings gitHubSyntaxChange="false" correctedInvalidSettings="false" emojiShortcuts="1" emojiImages="0">
++      <PegdownExtensions>
++        <option name="ATXHEADERSPACE" value="true" />
++        <option name="FENCED_CODE_BLOCKS" value="true" />
++        <option name="INTELLIJ_DUMMY_IDENTIFIER" value="true" />
++        <option name="RELAXEDHRULES" value="true" />
++        <option name="STRIKETHROUGH" value="true" />
++        <option name="TABLES" value="true" />
++        <option name="TASKLISTITEMS" value="true" />
++      </PegdownExtensions>
++      <ParserOptions>
++        <option name="COMMONMARK_LISTS" value="true" />
++        <option name="EMOJI_SHORTCUTS" value="true" />
++        <option name="GFM_TABLE_RENDERING" value="true" />
++        <option name="PRODUCTION_SPEC_PARSER" value="true" />
++        <option name="SIM_TOC_BLANK_LINE_SPACER" value="true" />
++      </ParserOptions>
++    </ParserSettings>
++    <HtmlSettings headerTopEnabled="false" headerBottomEnabled="false" bodyTopEnabled="false" bodyBottomEnabled="false" addPageHeader="false" addAnchorLinks="false" anchorLinksWrapText="false" imageUriSerials="false" addDocTypeHtml="true" noParaTags="false" defaultUrlTitle="false" migratedPlantUml="true" migratedAnchorLinks="true" plantUmlConversion="0">
++      <GeneratorProvider>
++        <provider providerId="com.vladsch.md.nav.editor.text.html.generator" providerName="Unmodified HTML Generator" />
++      </GeneratorProvider>
++      <headerTop />
++      <headerBottom />
++      <bodyTop />
++      <bodyBottom />
++      <fencedCodeConversions>
++        <option name="c4plantuml" value="NONE" />
++        <option name="ditaa" value="NONE" />
++        <option name="erd" value="NONE" />
++        <option name="graphviz" value="NONE" />
++        <option name="latex" value="KATEX" />
++        <option name="math" value="KATEX" />
++        <option name="mermaid" value="NONE" />
++        <option name="nomnoml" value="NONE" />
++        <option name="plantuml" value="NONE" />
++        <option name="puml" value="NONE" />
++        <option name="svgbob" value="NONE" />
++        <option name="umlet" value="NONE" />
++        <option name="vega" value="NONE" />
++        <option name="vegalite" value="NONE" />
++        <option name="wavedrom" value="NONE" />
++      </fencedCodeConversions>
++    </HtmlSettings>
++    <CssSettings previewScheme="UI_SCHEME" cssUri="" isCssUriEnabled="false" isCssUriSerial="true" isCssTextEnabled="false" isDynamicPageWidth="true">
++      <StylesheetProvider>
++        <provider providerId="com.vladsch.md.nav.editor.text.html.css" providerName="No Stylesheet" />
++      </StylesheetProvider>
++      <ScriptProviders />
++      <cssText />
++      <cssUriHistory />
++    </CssSettings>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/markdown-navigator-enh.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/markdown-navigator-enh.xml	(date 1615073510350)
++++ .idea/markdown-navigator-enh.xml	(date 1615073510350)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="MarkdownEnhProjectSettings">
++    <AnnotatorSettings targetHasSpaces="true" linkCaseMismatch="true" wikiCaseMismatch="true" wikiLinkHasDashes="true" notUnderWikiHome="true" targetNotWikiPageExt="true" notUnderSourceWikiHome="true" targetNameHasAnchor="true" targetPathHasAnchor="true" wikiLinkHasSlash="true" wikiLinkHasSubdir="true" wikiLinkHasOnlyAnchor="true" linkTargetsWikiHasExt="true" linkTargetsWikiHasBadExt="true" notUnderSameRepo="true" targetNotUnderVcs="false" linkNeedsExt="true" linkHasBadExt="true" linkTargetNeedsExt="true" linkTargetHasBadExt="true" wikiLinkNotInWiki="true" imageTargetNotInRaw="true" repoRelativeAcrossVcsRoots="true" multipleWikiTargetsMatch="true" unresolvedLinkReference="true" linkIsIgnored="true" anchorIsIgnored="true" anchorIsUnresolved="true" anchorLineReferenceIsUnresolved="true" anchorLineReferenceFormat="true" anchorHasDuplicates="true" abbreviationDuplicates="true" abbreviationNotUsed="true" attributeIdDuplicateDefinition="true" attributeIdNotUsed="true" footnoteDuplicateDefinition="true" footnoteUnresolved="true" footnoteDuplicates="true" footnoteNotUsed="true" macroDuplicateDefinition="true" macroUnresolved="true" macroDuplicates="true" macroNotUsed="true" referenceDuplicateDefinition="true" referenceUnresolved="true" referenceDuplicates="true" referenceNotUsed="true" referenceUnresolvedNumericId="true" enumRefDuplicateDefinition="true" enumRefUnresolved="true" enumRefDuplicates="true" enumRefNotUsed="true" enumRefLinkUnresolved="true" enumRefLinkDuplicates="true" simTocUpdateNeeded="true" simTocTitleSpaceNeeded="true" />
++    <HtmlExportSettings updateOnSave="false" parentDir="" targetDir="" cssDir="css" scriptDir="js" plainHtml="false" imageDir="" copyLinkedImages="false" imagePathType="0" targetPathType="2" targetExt="" useTargetExt="false" noCssNoScripts="false" useElementStyleAttribute="false" linkToExportedHtml="true" exportOnSettingsChange="true" regenerateOnProjectOpen="false" linkFormatType="HTTP_ABSOLUTE" />
++    <LinkMapSettings>
++      <textMaps />
++    </LinkMapSettings>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/devslopes/favoritebooks/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/devslopes/favoritebooks/MainActivity.kt	(revision 0233a43b9a229ecf888e150ea7af240fae0e521a)
++++ app/src/main/java/com/devslopes/favoritebooks/MainActivity.kt	(date 1615422882148)
+@@ -3,6 +3,7 @@
+ import android.content.Intent
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
++import android.util.Log
+ import androidx.recyclerview.widget.LinearLayoutManager
+ import com.devslopes.favoritebooks.databinding.ActivityMainBinding
+ import com.devslopes.favoritebooks.models.Book
+@@ -23,11 +24,11 @@
+         }
+ 
+         binding.addFab.setOnClickListener {
+-            showAddScreen()
++            showAddScreen(binding)
+         }
+     }
+ 
+-    private fun showAddScreen() {
++    private fun showAddScreen(binding: ActivityMainBinding) {
+         val intent = Intent(this, AddBookActivity::class.java)
+         startActivity(intent)
+     }
