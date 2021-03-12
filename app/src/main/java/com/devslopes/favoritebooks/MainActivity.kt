@@ -12,8 +12,6 @@ import kotlinx.android.synthetic.main.add_book.view.*
 
 class MainActivity : AppCompatActivity() {
 
-    //private lateinit var adapter: BooksAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)

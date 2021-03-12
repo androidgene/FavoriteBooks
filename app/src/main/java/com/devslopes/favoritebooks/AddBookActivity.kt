@@ -18,9 +18,10 @@ class AddBookActivity: AppCompatActivity() {
         binding.saveButton.setOnClickListener {
             val newBook = enterItem(binding)
             BookRepository.addBook(newBook, this)
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
         }
-        //val intent = Intent(this,MainActivity::class.java)
-        //startActivity(intent)
+
     }
 
     private fun enterItem(binding: AddBookBinding): Book {
