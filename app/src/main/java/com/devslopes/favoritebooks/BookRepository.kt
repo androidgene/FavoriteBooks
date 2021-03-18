@@ -35,7 +35,6 @@ object BookRepository {
 
     fun removeBook(book: Book, context: Context) {
         val removed = books.remove(book)
-
         if (removed) {
             saveBookList(context)
         }

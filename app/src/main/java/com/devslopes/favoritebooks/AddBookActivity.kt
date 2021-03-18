@@ -27,6 +27,6 @@ class AddBookActivity: AppCompatActivity() {
     private fun enterItem(binding: AddBookBinding): Book {
         val newItem = "${binding.title.text},${binding.author.text},${binding.genre.text},${binding.length.text}"
         return Book.fromCsv(newItem)
-
+        finish()
     }
 }
