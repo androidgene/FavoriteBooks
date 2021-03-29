@@ -28,6 +28,9 @@ class BooksAdapter(
         fun onBind(book: Book) = binding.apply {
             title.text = book.title
             subtitle.text = book.author
+            genre.text = book.genre
+            length.text = book.length
+
         }
     }
 }

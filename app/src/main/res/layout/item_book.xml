@@ -8,23 +8,88 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textColor="@color/black"
-        tools:text="Title"
+        android:text="Title:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/green"
+        tools:text="Title"
+        app:layout_constraintStart_toEndOf="@id/title_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/author_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:text="Author:  "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/author_label"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="Author" />
+
+    <TextView
+        android:id="@+id/genre_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="@color/black"
-        tools:text="Subtitle"
+        android:text="Genre:   "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/genre_label"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        tools:text="Genre" />
+
+    <TextView
+        android:id="@+id/length_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:text="Length:  "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genre" />
+
+    <TextView
+        android:id="@+id/length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/length_label"
+        app:layout_constraintTop_toBottomOf="@id/genre"
+        tools:text="Length" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,15 @@ package com.devslopes.favoritebooks
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.devslopes.favoritebooks.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.book_list
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.add_book.view.*
 
 
@@ -31,16 +34,18 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     override fun onMove(
                         recyclerView: RecyclerView,
-                        viewHolder: ViewHolder, target: ViewHolder
+                        viewHolder: ViewHolder,
+                        target: ViewHolder
                     ): Boolean {
                         return false // Move is not used
                     }
 
                     override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                         val position = viewHolder.adapterPosition
-                        val bookRepositoryList = BookRepository.getBooks(context)
-                        BookRepository.removeBook(bookRepositoryList[position], this@MainActivity)
+                        val bookRepositoryList = BookRepository.getBooks(this@MainActivity)
+                        BookRepository.removeBook(bookRepositoryList[position],this@MainActivity)
                         adapter!!.notifyItemRemoved(position)
+
                     }
                 }
             )
@@ -49,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.addFab.setOnClickListener {
             showAddScreen(binding)
+            binding.bookList.adapter?.notifyDataSetChanged()
         }
     }
 
